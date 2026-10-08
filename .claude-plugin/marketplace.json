@@ -1,0 +1,14 @@
+{
+  "name": "simple-chat",
+  "description": "Simple Chat, the AI support inbox for Shopify stores, as a Claude plugin.",
+  "owner": {
+    "name": "SA Inc.",
+    "url": "https://simple-chat.com"
+  },
+  "plugins": [
+    {
+      "name": "simple-chat",
+      "source": "./"
+    }
+  ]
+}

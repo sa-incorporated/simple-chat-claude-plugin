@@ -1,0 +1,18 @@
+{
+  "name": "simple-chat",
+  "displayName": "Simple Chat",
+  "version": "1.0.0",
+  "description": "Work your Simple Chat support inbox for Shopify from Claude: read conversations, check customers' orders, leave notes, claim tickets, approve drafted replies, and replay topics.",
+  "author": {
+    "name": "SA Inc.",
+    "url": "https://simple-chat.com"
+  },
+  "homepage": "https://simple-chat.com",
+  "repository": "https://github.com/sa-incorporated/simple-chat-claude-plugin",
+  "keywords": ["shopify", "customer support", "helpdesk", "inbox", "ai agent"],
+  "icon": "./assets/icon.png",
+  "documentationUrl": "https://github.com/sa-incorporated/simple-chat-claude-plugin#readme",
+  "supportUrl": "https://simple-chat.com/pages/contact",
+  "privacyPolicyUrl": "https://simple-chat.com/pages/privacy-policy",
+  "termsOfServiceUrl": "https://simple-chat.com/pages/terms-and-conditions"
+}
