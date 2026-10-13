@@ -18,10 +18,12 @@ it, on one store only.
    Chat for the store …"). Say it in one short sentence, and mention how many conversations are waiting, if any.
 3. Offer three things they can ask, one line each:
    - "What's waiting for me in Simple Chat?"
-   - "Show drafts that need my approval"
-   - "Why is AI resolution low for Returns and refunds? Replay it for the last 30 days."
-4. Explain in one sentence that sending or discarding a drafted customer reply, and running a paid topic replay, only
-   happen after they click Confirm in the card that appears, and that topic replay needs the Premium plan.
+   - "Show the drafts and proposals that need my approval"
+   - "Why is AI resolution low for Returns and refunds? Replay it for the last 90 days."
+4. Explain in two sentences. First: sending or discarding a drafted customer reply, approving an order change or a
+   customer record card, rejecting a proposal card, and running a paid topic replay only happen after they click
+   Confirm in the card that appears. Second: a refund, an order cancel and a replacement order are approved in the
+   Simple Chat dashboard and not from Claude, and topic replay needs the Premium plan.
 
 Keep it short. If the user added the plugin in the middle of a task, continue that task in the same conversation.
 Never quote customer messages back during setup.
