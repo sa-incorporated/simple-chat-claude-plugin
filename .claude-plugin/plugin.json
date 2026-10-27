@@ -1,8 +1,8 @@
 {
   "name": "simple-chat",
   "displayName": "Simple Chat",
-  "version": "1.1.0",
-  "description": "Work your Simple Chat support inbox for Shopify from Claude: read conversations, check customers' orders, leave notes, claim tickets, approve drafted replies, and replay topics.",
+  "version": "1.3.0",
+  "description": "Work your Simple Chat support inbox for Shopify from Claude: read conversations, check orders, leave notes, claim tickets, queue and approve drafted replies, edit FAQs, and replay topics.",
   "author": {
     "name": "SA Inc.",
     "url": "https://simple-chat.com"

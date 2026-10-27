@@ -1,13 +1,14 @@
 ---
 name: drafts
-description: Review the items that wait for staff approval in Simple Chat - the customer replies that the @SC agent drafted, and the refund, cancel, order change, customer record and replacement order proposal cards. Use when the user asks what needs their approval, asks to send, approve, discard or reject a drafted reply, asks to approve or reject a proposal, or asks to start a refund, cancel, order change or customer record proposal for an order.
+description: Review the items that wait for staff approval in Simple Chat - the customer replies that the @SC agent drafted or that the user queued, and the refund, cancel, order change, customer record and replacement order proposal cards. Use when the user asks what needs their approval, asks to queue a reply with their exact text, asks to send, approve, discard or reject a drafted reply, asks to approve or reject a proposal, or asks to start a refund, cancel, order change or customer record proposal for an order.
 ---
 
 # Review the items that wait for approval
 
 Two kinds of items wait for a staff member in Simple Chat:
 
-- **Drafted replies.** Simple Chat's @SC agent drafts replies to customers.
+- **Drafted replies.** Simple Chat's @SC agent drafts replies to customers, and the user can queue a reply with their
+  exact text (see "Queue a reply").
 - **Proposal cards.** The AI or a staff member proposes a refund, an order cancel, an order change, a customer record
   change or a replacement order for an order of the ticket.
 
@@ -44,7 +45,7 @@ approve them in the Simple Chat dashboard.
    you make a new preview.
 5. **One item for each card.** When the user asks to decide several items, make one preview for each item. Each one
    needs its own click. A request to approve "without asking" does not change this.
-6. **Only on request.** Approve, reject or start a card, and send or discard a draft, only when the user asks for
+6. **Only on request.** Approve, reject or start a card, and queue, send or discard a draft, only when the user asks for
    that action on that item.
 
 If no Confirm card shows, for example in Claude Code in a terminal, the user cannot confirm here. Give them the
@@ -54,11 +55,18 @@ ticketUrl, where they can decide the item in the Simple Chat dashboard.
 
 When the user asks for a refund, a cancel, an order change or a customer record change for an order of a ticket, call
 `start_staff_proposal` with the order name that `get_customer_orders` gives for that ticket. The start changes nothing
-in Shopify: it puts a card in the ticket, which waits for a staff decision as in step 3. Read the new card with
-`list_staff_proposals`. After you start a refund card
+in Shopify: it puts a card in the ticket, which waits for a staff decision as in step 3. A refund card selects the
+whole order. For a partial refund, give `refundAmount` (the amount in the currency of the order, for example 22.21):
+the card then refunds only that amount, with no item and no shipping, to the original payment method. Read the new card
+with `list_staff_proposals`. After you start a refund card
 or a cancel card, say that the approval is in the Simple Chat dashboard, and give the ticketUrl. A ticket has one card
 of each kind for each order, and one customer record card for each customer: a waiting customer record card stops a
 second one for another order of the same customer until staff decide it. Staff start a replacement order card in the
 dashboard.
 
-To get a new draft for a ticket, ask @SC with `consult_ticket_staff_agent`, as the inbox skill describes.
+## Queue a reply
+
+To get a new draft for a ticket, ask @SC with `consult_ticket_staff_agent`, as the inbox skill describes. When the user
+gives the exact text of a reply, queue it with `queue_customer_draft`: the draft has that text word for word, and it
+waits for the same approval as an @SC draft. Queue only the text that the user gives, and only when they ask. The tool
+refuses the same text while that draft still waits, and it refuses while @SC works on the ticket.

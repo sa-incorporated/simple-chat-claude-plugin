@@ -20,10 +20,11 @@ it, on one store only.
    - "What's waiting for me in Simple Chat?"
    - "Show the drafts and proposals that need my approval"
    - "Why is AI resolution low for Returns and refunds? Replay it for the last 90 days."
-4. Explain in two sentences. First: sending or discarding a drafted customer reply, approving an order change or a
+4. Explain in three sentences. First: sending or discarding a drafted customer reply, approving an order change or a
    customer record card, rejecting a proposal card, and running a paid topic replay only happen after they click
    Confirm in the card that appears. Second: a refund, an order cancel and a replacement order are approved in the
-   Simple Chat dashboard and not from Claude, and topic replay needs the Premium plan.
+   Simple Chat dashboard and not from Claude, and topic replay needs the Premium plan. Third: a change of an FAQ or of
+   the store instructions of the AI applies at once when they ask for it.
 
 Keep it short. If the user added the plugin in the middle of a task, continue that task in the same conversation.
 Never quote customer messages back during setup.
