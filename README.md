@@ -11,12 +11,14 @@ inbox for Shopify stores. This plugin connects Claude to your Simple Chat accoun
 - start a refund, cancel, order change or customer record proposal, and approve an order change or a customer record
   proposal;
 - read the instructions of your store's AI, and change them and your FAQs;
-- replay a topic to see why the AI did not resolve it.
+- read and change the name, the title and the avatar of the chat assistant;
+- read the subscription plans of your store, and change the settings of a plan after you confirm;
+- list the AI resolution by topic.
 
 ## What you need
 
 - A Shopify store with [Simple Chat](https://apps.shopify.com/simple-chat) installed. The plugin works on every
-  Simple Chat plan. Topic replay needs the Premium plan.
+  Simple Chat plan. The AI resolution by topic needs the Premium plan.
 - A staff account on that store. You connect as yourself, on one store.
 - Claude on the web, the Claude desktop or mobile app, Cowork, or Claude Code.
 
@@ -24,13 +26,13 @@ inbox for Shopify stores. This plugin connects Claude to your Simple Chat accoun
 
 - **One connector**, `simple-chat`: the remote MCP server `https://mcp.simple-chat.com/mcp`, which SA Inc. operates.
   You sign in with OAuth. The plugin holds no key and no password.
-- **Four skills** that tell Claude how to use the connector:
+- **Three skills** that tell Claude how to use the connector:
   - `get-started` checks the connection and shows what to ask.
-  - `inbox` reads and searches conversations, customers and orders, makes internal changes to a ticket, and reads and
-    changes the FAQs and the instructions of your store's AI.
+  - `inbox` reads and searches conversations, customers and orders, makes internal changes to a ticket, reads and
+    changes the FAQs, the instructions of your store's AI and the assistant branding, reads the subscription plans and changes the settings
+    of a plan after you confirm, and lists the AI resolution by topic (Premium).
   - `drafts` queues a reply with your exact text, sends or discards a drafted reply, and approves or rejects a proposal
     card, after you confirm. It also starts a proposal card.
-  - `topic-replay` shows AI resolution by topic and runs a topic replay (Premium).
 
 The plugin has no hooks, no scripts and no local programs. It runs nothing on your computer, and it sends data only to
 `mcp.simple-chat.com`.
@@ -58,16 +60,17 @@ The plugin has no hooks, no scripts and no local programs. It runs nothing on yo
   it for me."
 - "Show drafts that need my approval, then send the one for the late delivery question."
 - "Show the drafts and proposals that need my approval."
-- "Why is AI resolution low for Returns and refunds? Replay it for the last 90 days."
+- "Which topics does the AI resolve least often in the last 90 days?"
 
 ## You confirm before a customer gets a message or an order changes
 
 Claude cannot send a message to a customer or change an order by itself. A reply that you ask Claude to queue waits as
-a draft, as a reply that the AI drafted does. You can ask it to send or discard a drafted reply, to approve an order change or a customer record proposal, to reject a proposal, or to start a paid topic replay.
+a draft, as a reply that the AI drafted does. You can ask it to send or discard a drafted reply, to approve an order change or a customer record proposal, to reject a proposal, or to change the settings of a subscription plan.
 Simple Chat then shows a Confirm card in the conversation. Nothing happens until you click **Confirm**. Notes, claims,
-pins and status changes stay inside Simple Chat, and the customer does not see them. A change of an FAQ or of the
-instructions of your store's AI applies at once when you ask for it, with no Confirm card, and the other settings stay
-in the Simple Chat dashboard.
+pins and status changes stay inside Simple Chat, and the customer does not see them. A change of an FAQ, of the
+instructions of your store's AI or of the assistant branding applies at once when you ask for it, with no Confirm card. A change of a subscription
+plan (its name, schedule, discounts or minimum order subtotal) runs after you click **Confirm**, and shoppers see it at
+once. The other settings stay in the Simple Chat dashboard.
 
 Claude can also start a refund, cancel, order change or customer record proposal for an order of a ticket. A new
 proposal changes nothing until a staff member approves it.
@@ -82,7 +85,7 @@ has no other payment tool: it cannot charge a customer.
 
 The Confirm card shows in Claude on the web and in the Claude apps. Claude Code in a terminal cannot show the card.
 There, Claude gives you the link to the ticket, and you send the draft or decide the proposal in the Simple Chat
-dashboard.
+dashboard. You change a subscription plan on the Selling plans tab of the Subscriptions page of the Simple Chat dashboard.
 
 ## Privacy and data
 
