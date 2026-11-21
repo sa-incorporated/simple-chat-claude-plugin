@@ -1,6 +1,6 @@
 ---
 name: inbox
-description: Work a Shopify store's Simple Chat support inbox. Use when the user asks what is waiting for them, wants to find, read or summarize a customer conversation or ticket, look up a customer's orders, a product or a store policy, leave an internal note, claim or pin a ticket, set its status, queue a reply with their exact text, ask the @SC agent to look into a ticket, read or change an FAQ, the store instructions of the store's AI or the name, title and avatar of the chat assistant, read the subscription plans or change the settings of a plan, or list the AI resolution by topic.
+description: Work a Shopify store's Simple Chat support inbox. Use when the user asks what is waiting for them, wants to find, read or summarize a customer conversation or ticket, look up a customer's orders, a product or a store policy, leave an internal note, claim or pin a ticket, set its status, queue a reply with their exact text, ask the @SC agent to look into a ticket, read or change an FAQ, the store instructions of the store's AI or the name, title and avatar of the chat assistant, check, approve, turn off, edit or delete the suggested answers of the storefront, read the subscription plans or change the settings of a plan, or list the AI resolution by topic.
 ---
 
 # Work the Simple Chat inbox
@@ -63,17 +63,34 @@ sent to the customer.
 - `update_merchant_settings`: changes an FAQ (`faqUpserts`, by the id that `search_store_information` gives) or a
   prompt variable, only when the user asks, with the text that the user gives or approves. Read the current text first,
   and send the whole new text. The store's AI uses the change at once, with no Confirm card, so say what changed.
+  `public` of an FAQ makes it public (Simple Chat can write its question and answer, never its usage instructions, to
+  the Knowledge base of the store and, while it is on, to the FAQ page of the store) or private: set it only when the user asks for it for named FAQs or approves a list.
+  A change that makes an FAQ public runs at once too. In the reply, name each FAQ of `faqsMadePublic`.
 - Assistant branding: `get_merchant_settings` reads and `update_merchant_settings` changes the name
   (setting id branding_assistant_name), the title (branding_assistant_title) and the avatar (branding_assistant_svg) of
   the chat assistant, only when the user asks. The avatar is a PNG data URL of 128 × 128 px and 64 KB at most, or inline SVG
   markup of 64 KB at most. The chat widget shows the change at once.
+- Suggested answers: `list_suggested_answers` reads the stored answers of the questions that the storefront search box
+  and the chat suggest to shoppers, with a status filter (draft, active or off). While nextAfterId is not null, call it
+  again with afterId set to nextAfterId. `update_suggested_answers` approves an answer (status active), turns it off
+  (status off) or stores a new reply, only when the user asks, for the answers that the user names or for a list that
+  the user approves. Pass the updatedAt of the version that you read. Each call runs at once, with no
+  Confirm card. After an approval, or a new reply of an active answer, the chat can send the reply as it is to shoppers
+  who click the question, and no AI and no person checks it again. So check each fact of such a reply with
+  `search_store_information` before you send it, and tell the user which answers the call made active. A call changes
+  each of its answers or none: when it fails, say the reason that the tool gives. `delete_suggested_answers` deletes
+  answers, only when the user asks for a delete, for the answers that the user names or for a list that the user
+  approves. It runs at once, and a deleted answer cannot come back: to stop an answer and keep its reply, turn it off.
+  Its result gives deletedIds and notDeletedIds: the answers that it did not delete, for example because they changed
+  after the read or are gone. When it deletes no answer, the call fails: say the reason that the tool gives, and read
+  the answers again with `list_suggested_answers`.
 - `update_subscription_plan_settings`: changes the name, the schedule, a discount or the minimum order subtotal of a
   subscription plan, only when the user asks. Read the plan with `get_shopify_subscription_plans` first, and pass only
   the settings that change. Simple Chat shows a Confirm card with each setting before and after, and the change runs
   only when the user clicks **Confirm**. Shoppers see it at once, and nothing is sent to a customer. If no Confirm card
   shows, say that the user changes the plan in the Simple Chat dashboard, on the Selling plans tab of the Subscriptions
   page.
-- To decide a refund, cancel, order change, customer record or replacement order proposal card, or to start a refund,
+- To decide a refund, cancel, order change, customer record, return or replacement order proposal card, or to start a refund,
   cancel, order change or customer record card, follow the drafts skill. Staff start a replacement order card in the
   dashboard.
 
@@ -83,7 +100,7 @@ The connector has no tool that writes to a customer directly, and no tool that m
 it reaches the customer only after the staff member approves it. An order change or a
 customer record change runs only through a proposal card that the user approves and confirms, as the drafts skill
 describes. A refund, an order cancel and a replacement order are approved in the Simple Chat dashboard, not from
-Claude. Do not offer another way to do one. Of the store settings, only the FAQs, the store instructions, the assistant branding (name, title and avatar) and the
+Claude. Do not offer another way to do one. Of the store settings, only the FAQs, the store instructions, the assistant branding (name, title and avatar), the suggested answers and the
 settings of a subscription plan change from Claude, and the other settings change in the Simple Chat dashboard. For another action that no card covers, say that Simple Chat for Claude cannot do
 it, and give the ticket link so that they can do it in the Simple Chat dashboard. When the user asks to charge a
 customer or to make a new order, call no tool: say that Simple Chat for Claude cannot do it.

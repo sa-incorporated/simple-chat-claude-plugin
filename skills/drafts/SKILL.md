@@ -1,6 +1,6 @@
 ---
 name: drafts
-description: Review the items that wait for staff approval in Simple Chat - the customer replies that the @SC agent drafted or that the user queued, and the refund, cancel, order change, customer record and replacement order proposal cards. Use when the user asks what needs their approval, asks to queue a reply with their exact text, asks to send, approve, discard or reject a drafted reply, asks to approve or reject a proposal, or asks to start a refund, cancel, order change or customer record proposal for an order.
+description: Review the items that wait for staff approval in Simple Chat - the customer replies that the @SC agent drafted or that the user queued, and the refund, cancel, order change, customer record, return and replacement order proposal cards. Use when the user asks what needs their approval, asks to queue a reply with their exact text, asks to send, approve, discard or reject a drafted reply, asks to approve or reject a proposal, or asks to start a refund, cancel, order change or customer record proposal for an order.
 ---
 
 # Review the items that wait for approval
@@ -10,29 +10,41 @@ Two kinds of items wait for a staff member in Simple Chat:
 - **Drafted replies.** Simple Chat's @SC agent drafts replies to customers, and the user can queue a reply with their
   exact text (see "Queue a reply").
 - **Proposal cards.** The AI or a staff member proposes a refund, an order cancel, an order change, a customer record
-  change or a replacement order for an order of the ticket.
+  change or a replacement order for an order of the ticket. A return card for an order of the ticket also waits for
+  staff.
 
-A draft reaches the customer, and a card changes the order or the customer, only after the staff member clicks Confirm.
+A draft reaches the customer, and a card runs its action, only after the staff member clicks Confirm.
 You cannot confirm for them.
 
 A refund card, an order cancel card and a replacement order card move money. From Claude, the staff member can see
 and reject these cards, and can start a refund card or an order cancel card. They cannot approve them from Claude: they
 approve them in the Simple Chat dashboard.
 
-1. **Find the items.** For drafts, call `list_inbox_conversations`, then `list_pending_customer_drafts` for each open
-   conversation. For cards, call `list_staff_proposals`: with a conversationId for one ticket, or without one for the
-   conversations of an inbox page. Without a conversationId, each of these calls reads one inbox page: while hasMore
-   is true, call it again with offset set to nextOffset. When the user asks what needs their approval, show both. Show
-   each draft with the customer, the ticket subject and a short preview. Show each card on one line: its kind, the
-   order, the action and the amounts with their currency.
+1. **Find the items.** For drafts, call `list_pending_customer_drafts`: with a conversationId for one ticket, or
+   without one for the drafts of each ticket of the store (the newest 100; when hasMore is true, older drafts wait
+   that the call does not show, so say so). In that list, each draft has the status of its ticket (ticketStatus): when
+   the ticket of a draft is closed, say so. For cards, call `list_staff_proposals`: with a
+   conversationId for one ticket, or without one for the conversations of an inbox page. Without a conversationId,
+   the list of the cards reads one inbox page: while hasMore is true, call it again with offset set to nextOffset.
+   When the user asks what needs their approval, show both. Show each draft with the customer and a short preview.
+   Show each card on one line: its kind, the order, the action and the amounts with their currency.
 2. **Pick the item.** When the user names an item ("the late delivery one", "the refund for #1001"), match it to one
    draft or one card. When more than one fits, ask which one. When a ticket holds several drafts, pass that draft's
    clientMessageId. For a card, pass its proposalId.
 3. **Decide.**
    - To send a draft, call `approve_pending_customer_message`. To discard it, call `reject_pending_customer_message`.
-   - To approve an order change card or a customer record card, call `approve_staff_proposal`. Pass a staff field (for
-     example a hold date or a new phone number) only when the user gives it; the card keeps its own values for the
-     others. Pass notifyCustomer false only when the user asks for no customer message.
+   - To send several drafts with one confirmation, show the user the customer and the text of each draft first. Then
+     call `approve_pending_customer_messages` with only the drafts that the user names or approves (20 at most). When
+     a draft changed or was decided before the Confirm, nothing goes out: make a new preview. A draft that does not go
+     out while the others go is in the result with its cause.
+   - To discard several drafts with one confirmation, show the user the customer and the text of each draft first.
+     Then call `reject_pending_customer_messages` with only the drafts that the user names (20 at most). No customer
+     gets a message. The same rules apply when a draft changed or was decided.
+   - To approve an order change card, a customer record card or a return card, call `approve_staff_proposal`. Pass a
+     staff field (for example a hold date, a new phone number or the staffNote of a return) only when the user gives it;
+     the card keeps its own values for the others. A return approval changes nothing in Shopify: staff make the return
+     label and the refund as the store does, and the AI writes to the customer about the return, with the steps of the store FAQ while that FAQ
+     is live, the staff note when there is one, and, when the return labels in Shopify hold each item of the card, the label email and the drop-off day (left out when that day is past); when such a return has one label and the returns facility already scanned its package, the AI says that the package arrived, with no label email and no drop-off day, and the staff note gives the return to staff. Else, while AI is on, the drop-off day is not past and SC monitors no other return on the ticket, the ticket then goes to monitoring: after the drop-off day, SC gives the ticket to staff unless each label has a carrier scan, or the return has one label, SC can read its tracking and the customer reported the drop-off; else it gives the ticket to staff at the first check-in 14 or more days after the label. SC does not check the labels of a return that it does not monitor. Pass notifyCustomer false only when the user asks for no customer message.
    - To approve a refund card, an order cancel card or a replacement order card, do not call a tool. Tell the user
      that these cards are approved in the Simple Chat dashboard, and give the ticketUrl of the card.
    - To reject a card of any kind, call `reject_staff_proposal`. A reject changes nothing in Shopify.
@@ -44,7 +56,9 @@ approve them in the Simple Chat dashboard.
    read shows it. When a Confirm fails because the card changed or somebody decided it, read the card again before
    you make a new preview.
 5. **One item for each card.** When the user asks to decide several items, make one preview for each item. Each one
-   needs its own click. A request to approve "without asking" does not change this.
+   needs its own click. A request to approve "without asking" does not change this. The one exception is the send or the
+   discard of several drafts that the user names or approves: they go in one `approve_pending_customer_messages` or
+   `reject_pending_customer_messages` preview, with one click.
 6. **Only on request.** Approve, reject or start a card, and queue, send or discard a draft, only when the user asks for
    that action on that item.
 

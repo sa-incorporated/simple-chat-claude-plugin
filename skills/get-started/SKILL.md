@@ -20,11 +20,12 @@ it, on one store only.
    - "What's waiting for me in Simple Chat?"
    - "Show the drafts and proposals that need my approval"
    - "Which topics does the AI resolve least often in the last 90 days?"
-4. Explain in three sentences. First: sending or discarding a drafted customer reply, approving an order change or a
-   customer record card, rejecting a proposal card, and changing the settings of a
-   subscription plan only happen after they click Confirm in the card that appears. Second: a refund, an order cancel and a replacement order are approved in the
-   Simple Chat dashboard and not from Claude, and the AI resolution by topic needs the Premium plan. Third: a change of an FAQ, of
-   the store instructions of the AI or of the assistant branding applies at once when they ask for it.
+4. Explain in three sentences. First: sending or discarding a drafted customer reply, approving an order change, a
+   customer record or a return card, rejecting a proposal card and changing the settings of a subscription
+   plan only happen after
+   they click Confirm in the card that appears. Second: a refund, an order cancel and a replacement order are approved in the
+   Simple Chat dashboard and not from Claude, and the AI resolution by topic needs the Premium plan. Third: each change of an FAQ (also making it public or private),
+   a change of the store instructions of the AI or of the assistant branding, and each change of a suggested answer (a turn-off, an edit, an approval or a delete) apply at once when they ask for it.
 
 Keep it short. If the user added the plugin in the middle of a task, continue that task in the same conversation.
 Never quote customer messages back during setup.

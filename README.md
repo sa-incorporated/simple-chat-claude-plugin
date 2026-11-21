@@ -7,11 +7,12 @@ inbox for Shopify stores. This plugin connects Claude to your Simple Chat accoun
 - check the orders of a customer;
 - leave notes for your team, and claim tickets;
 - queue a reply with your exact text, and approve the replies that you or the AI drafted;
-- see and reject the refund, cancel, order change, customer record and replacement order proposals of a ticket;
-- start a refund, cancel, order change or customer record proposal, and approve an order change or a customer record
-  proposal;
-- read the instructions of your store's AI, and change them and your FAQs;
+- see and reject the refund, cancel, order change, customer record, return and replacement order proposals of a ticket;
+- start a refund, cancel, order change or customer record proposal, and approve an order change, a customer record or a
+  return proposal;
+- read the instructions of your store's AI, and change them and your FAQs, also which FAQs are public;
 - read and change the name, the title and the avatar of the chat assistant;
+- check the suggested answers of your storefront, and turn them off, edit them, approve them or delete them;
 - read the subscription plans of your store, and change the settings of a plan after you confirm;
 - list the AI resolution by topic.
 
@@ -29,8 +30,8 @@ inbox for Shopify stores. This plugin connects Claude to your Simple Chat accoun
 - **Three skills** that tell Claude how to use the connector:
   - `get-started` checks the connection and shows what to ask.
   - `inbox` reads and searches conversations, customers and orders, makes internal changes to a ticket, reads and
-    changes the FAQs, the instructions of your store's AI and the assistant branding, reads the subscription plans and changes the settings
-    of a plan after you confirm, and lists the AI resolution by topic (Premium).
+    changes the FAQs, the instructions of your store's AI and the assistant branding, reads the suggested answers,
+    turns them off, and edits, approves or deletes them, reads the subscription plans and changes the settings of a plan after you confirm, and lists the AI resolution by topic (Premium).
   - `drafts` queues a reply with your exact text, sends or discards a drafted reply, and approves or rejects a proposal
     card, after you confirm. It also starts a proposal card.
 
@@ -62,13 +63,19 @@ The plugin has no hooks, no scripts and no local programs. It runs nothing on yo
 - "Show the drafts and proposals that need my approval."
 - "Which topics does the AI resolve least often in the last 90 days?"
 
-## You confirm before a customer gets a message or an order changes
+## You confirm before a customer gets a reply in a ticket or an order changes
 
-Claude cannot send a message to a customer or change an order by itself. A reply that you ask Claude to queue waits as
-a draft, as a reply that the AI drafted does. You can ask it to send or discard a drafted reply, to approve an order change or a customer record proposal, to reject a proposal, or to change the settings of a subscription plan.
+Claude cannot send a reply in a ticket to a customer or change an order by itself. A reply that you ask Claude to queue waits as
+a draft, as a reply that the AI drafted does. You can ask it to send or discard a drafted reply, to approve an order change, a customer record or a return proposal, to reject a proposal, or to change the settings of a subscription plan.
 Simple Chat then shows a Confirm card in the conversation. Nothing happens until you click **Confirm**. Notes, claims,
 pins and status changes stay inside Simple Chat, and the customer does not see them. A change of an FAQ, of the
-instructions of your store's AI or of the assistant branding applies at once when you ask for it, with no Confirm card. A change of a subscription
+instructions of your store's AI or of the assistant branding applies at once when you ask for it, with no Confirm card,
+also a change that makes an FAQ public or private.
+Simple Chat can write the question and the answer of a public FAQ, never its usage instructions, to the Knowledge base
+of your Shopify store and, while it is on, to the FAQ page of your store.
+A change of a suggested answer also applies at once when you ask for it, with no Confirm card: a turn-off, an edit, an
+approval, a new reply of an approved answer, and a delete. A deleted answer cannot come back. After an approval or a new reply of an approved answer, the chat can send
+that reply as it is to shoppers who click the question. A change of a subscription
 plan (its name, schedule, discounts or minimum order subtotal) runs after you click **Confirm**, and shoppers see it at
 once. The other settings stay in the Simple Chat dashboard.
 
