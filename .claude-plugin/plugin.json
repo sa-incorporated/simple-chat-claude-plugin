@@ -1,7 +1,7 @@
 {
   "name": "simple-chat",
   "displayName": "Simple Chat",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "Work your Simple Chat inbox for Shopify from Claude: read conversations, check orders, leave notes, claim tickets, queue and approve replies, edit FAQs and subscription plans.",
   "author": {
     "name": "SA Inc.",
